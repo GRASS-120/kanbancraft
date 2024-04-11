@@ -6,6 +6,8 @@
 
 ![картинка](https://i.imgur.com/HwGofgA.png)
 
+!!! работаем с веткой dev
+
 ### если до этого не пушили и не пуллили:
 ```
 git remote add origin https://github.com/GRASS-120/kanbancraft.git

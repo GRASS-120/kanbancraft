@@ -5,6 +5,8 @@
 !!! **когда будете работать с гитом, делайте это из корневой папки, то есть не из kanbancraft_client или kanban_server, a из папки, где у вас весь проект**. пример: у меня это папка kanbancraft
 ![картинка](https://imgur.com/HwGofgA)
 
+!!! работаем с веткой dev
+
 ### если до этого не пушили и не пуллили:
 ```
 git remote add origin https://github.com/GRASS-120/kanbancraft.git

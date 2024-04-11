@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "app"
+version = "0.1.0"
+description = ""
+authors = ["GRASS_IT <45945921+GRASS-120@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.110.1"
+uvicorn = {extras = ["standard"], version = "^0.29.0"}
+
+[tool.poetry.scripts]
+start = "app.main:start"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

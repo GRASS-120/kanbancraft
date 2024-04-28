@@ -1,7 +1,7 @@
 import React from 'react';
 
-const KanbanPage = () => {
+const BoardPage = () => {
   return <div>KanbanPage</div>;
 };
 
-export default KanbanPage;
+export default BoardPage;

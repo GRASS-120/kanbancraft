@@ -1,7 +1,7 @@
 import React from 'react';
 
 const BoardPage = () => {
-  return <div>KanbanPage</div>;
+  return <div></div>;
 };
 
 export default BoardPage;

@@ -1,0 +1,63 @@
+.kanbanSidebar {
+  height: 100%;
+  width: 300px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgb(51,51,51,0.75);
+}
+
+  .userGroup {
+    margin-top: 5%;
+    margin-left: 5%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .avatar {
+    background-color: white; /* or any other color you prefer */
+    margin-right: 5%;
+  }
+  
+  .username {
+    font-size: 20px;
+    color: white;
+  }
+
+  .myProject {
+    background-color: rgb(51,51,51,0.5);
+    margin-top: 5%;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .myProjectText {
+    color: white;
+    font-size: 25px; 
+    line-height: 50px; 
+    padding-left: 2%;
+    }
+
+  .projectContainer {
+    line-height: 50px; 
+    background-color: rgba(79, 79, 79, 0.85);
+    width: 100%; /* Set container width to match kanbanSidebar */
+    color: white;
+    text-align: left;  
+  }
+
+  .myProjectText {
+    margin-left: 2%; 
+  }
+
+  .subproject {
+    line-height: 50px; 
+    background-color: rgba(98, 98, 98, 0.85);
+    width: 100%; /* Set container width to match kanbanSidebar */
+    color: white;
+    text-align: left; 
+  }

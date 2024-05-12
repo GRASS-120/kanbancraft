@@ -51,3 +51,9 @@ poetry shell
 poetry install
 poetry run start
 ```
+
+# MongoDB
+
+в админке MongoDB у тестирующих должна быть создана база Kanbancraft с коллекцией Users
+
+она должна быть запущена по адресу localhost:27017 или 127.0.0.1:27017, то есть локально

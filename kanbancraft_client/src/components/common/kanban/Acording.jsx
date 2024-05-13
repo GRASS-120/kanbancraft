@@ -3,11 +3,12 @@ import * as Accordion from '@radix-ui/react-accordion';
 import classNames from 'classnames';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 import './acording.css';
+import ProjectIcon from '../../../assets/projectIcon.svg';
+import SubProjectIcon from '../../../assets/subprojectIcon.svg';
 
 const projects = [
-  { projectName: "где", subprojects: ["ну и", "хуиня"] },
-  { projectName: "сковорода", subprojects: ["подпроект3", "подпроект4","ыыыааааа"] },
-  // Add more projects and their subprojects as needed
+  { projectName: "Проект 1", subprojects: ["Доска 1","Доска 2"] },
+  { projectName: "Проект 2", subprojects: ["Доска 1","Доска 2","Доска 3"] },
 ];
 
 const AccordionDemo = () => (
@@ -36,14 +37,20 @@ const AccordionTrigger = React.forwardRef(({ children, className, ...props }, fo
       {...props}
       ref={forwardedRef}
     >
-      {children}
+      <div style={{ display: 'flex', alignItems: 'center' }}> {/* Объединение иконки и текста в один flex контейнер */}
+        <img src={ProjectIcon} alt="Project Icon" className="ProjectIcon" />
+        <span style={{ marginLeft: '8px' }}>{children}</span> {/* Добавление отступа между иконкой и текстом */}
+      </div>
       <ChevronDownIcon className="AccordionChevron" aria-hidden />
     </Accordion.Trigger>
   </Accordion.Header>
 ));
 
 const AccordionButton = ({ children }) => (
-  <button className="AccordionButton">{children}</button>
+  <button className="SubprojectButton">
+    <img src={SubProjectIcon} alt="Subproject Icon" className="SubProjectIcon" /> {/* Иконка подпроекта */}
+    {children}
+  </button>
 );
 
 const AccordionContent = React.forwardRef(({ children, className, ...props }, forwardedRef) => (

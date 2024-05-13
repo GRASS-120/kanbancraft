@@ -1,41 +1,25 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // Используйте useNavigate вместо useHistory
 import './kanban.css';
 import AccordionDemo from './Acording';
-
-
-// Define the Subproject component
-const Subproject = ({ subprojectName }) => {
-  return (
-    <div className="subproject" >
-      <div style={{ marginLeft: '15%', fontSize: "25px"}}>{subprojectName}</div>
-      
-    </div>
-  );
-};
-
-// Define the Project component
-const Project = ({ projectName, subprojects }) => {
-  return (
-    <div className="project" style={{ marginLeft: '10%', fontSize: "25px"}}>
-      <div className="projectName">{projectName}</div>
-
-    </div>
-  );
-};
+import * as Avatar from '@radix-ui/react-avatar';
 
 const KanbanSidebar = () => {
-  // Array to store project names
-  const projects = [
-    { projectName: "где", subprojects: ["ну и", "хуиня"] },
-    { projectName: "сковорода", subprojects: ["подпроект3", "подпроект4","ыыыааааа"] },
-    // Add more projects and their subprojects as needed
-  ];
+  const navigate = useNavigate(); // Используйте useNavigate для навигации
 
+  // Функция для перехода в директорию kanban/avatar
+  const navigateToAvatar = () => {
+    navigate('/kanban/account'); // Изменяем текущий путь на /kanban/avatar
+  };
+  
   return (
-    <div className="kanbanSidebar">  
-
-      <div className="userGroup">
-        <div variant="body1" className="username">Имя пользователя</div>
+    <div className="kanbanSidebar">
+      <div className="userGroup" onClick={navigateToAvatar}> 
+        <Avatar.Root className="circleAvatar">
+          <Avatar.Image src="путь_к_изображению" alt="U" />
+          <Avatar.Fallback delayMs={600}>U</Avatar.Fallback>
+        </Avatar.Root>
+        <div variant="body1" className="username">Мой профиль</div>
       </div>
 
       <div className="myProject">
@@ -44,21 +28,7 @@ const KanbanSidebar = () => {
         </div>
       </div>
 
-      <div>
-        <div style={{ fontSize: "25px"}}>
-          {projects.map((project, index) => (
-            <div >
-              <div className="projectContainer" key={index}>
-                  <Project projectName={project.projectName} subprojects={project.subprojects} />
-              </div>
-                  {project.subprojects.map((subproject, index) => (
-                  <div className="subprojectContainer" key={index}>
-                  <Subproject subprojectName={subproject} /></div>))}
-              </div>
-          ))}
-        </div>
-      </div>
-      <AccordionDemo/>
+      <AccordionDemo />
     </div>
   );
 };

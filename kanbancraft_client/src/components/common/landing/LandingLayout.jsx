@@ -4,7 +4,7 @@ import LandingHeader from './LandingHeader';
 
 const LandingLayout = () => {
   return (
-    <div>
+    <div className="landing__layout">
       <LandingHeader />
       <Outlet />
     </div>

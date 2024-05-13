@@ -16,7 +16,7 @@ import BoardPage from './pages/BoardPage';
 
 export const router = createBrowserRouter([
   {
-    path: '/landing',
+    path: '/',
     element: <LandingLayout />,
     // ! тут будет проверка на то, авторизован ли пользователь
     loader: async () => {

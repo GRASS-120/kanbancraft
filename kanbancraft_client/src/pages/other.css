@@ -1,0 +1,39 @@
+.landing {
+  color: white;
+  width: 100%;
+  height: calc(100vh - 127px);
+  background-image: url('../assets/fon.jpg');
+  background-size: cover;
+  background-position: center;
+  overflow-y: auto;
+}
+
+.landing__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 450px 150px 10px 150px;
+}
+
+.landing__content h1 {
+  font-weight: 400;
+  font-size: 64px;
+}
+
+.landing__a {
+  font-weight: 400;
+  font-size: 36px;
+  text-decoration: none;
+  color: white;
+}
+
+.landing__a button {
+  background: #6fcf97;
+  border-radius: 15px;
+  transition: 0.2s;
+  padding: 35px 80px;
+}
+
+.landing__content button:hover {
+  background: #56be81;
+}

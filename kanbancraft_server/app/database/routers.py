@@ -1,11 +1,17 @@
 from fastapi import APIRouter
+from mongo_db_script import client, database, users_collection, desks_collection
 
 
 router = APIRouter()
 
 
-@router.get("/{username}/get_data")
+@router.get("/{username}/get_user_data")
 async def get_user_data(username: str):
+    pass
+
+
+@router.get("/{username}/get_user_desks")
+async def get_user_desks(username: str):
     pass
 
 

@@ -1,11 +1,12 @@
-from mongo_db_script import database, kanbancraft_collections
-
-
-def database_post():
+def database_read():
     pass
 
 
-def database_put():
+def database_insert():
+    pass
+
+
+def database_update():
     pass
 
 

@@ -29,4 +29,4 @@ async def init_mongo_db():
     client = AsyncIOMotorClient(mongo_url())
 
     # Kanbancraft - название базы данных
-    await init_beanie(database=client['Kanbancraft'], document_models=[])
+    await init_beanie(database=client['Kanbancraft'], document_models=['Users, Desks'])

@@ -49,6 +49,7 @@ npm run start:dev
 ```
 poetry shell
 poetry install
+poetry update
 poetry run start
 ```
 

@@ -1,0 +1,46 @@
+.header {
+  flex: 0 1 auto;
+  padding: 0px 28px 0px;
+}
+
+.header__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header__logo {
+  display: flex;
+  column-gap: 0px;
+  align-items: center;
+}
+
+.header__logo span {
+  font-weight: 400;
+  font-size: 36px;
+  color: #000;
+}
+
+.header__entrance__and__registration {
+  font-weight: 400;
+  font-size: 24px;
+  color: #000;
+}
+
+.header__entrance__and__registration ul {
+  display: flex;
+  column-gap: 19px;
+}
+
+.header__btn {
+  color: #333;
+  cursor: pointer;
+  transition: 0.2s;
+  text-decoration: none;
+  font-size: 24px;
+  transition: 0.2s;
+}
+
+.header__btn:hover {
+  color: black;
+}

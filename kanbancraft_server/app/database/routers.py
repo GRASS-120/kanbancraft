@@ -1,12 +1,21 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
+from mongo_db_script import users_collection, desks_collection
 
 
 router = APIRouter()
 
 
-@router.get("/{username}/get_data")
+@router.get("/{username}/get_user_data")
 async def get_user_data(username: str):
     pass
+
+
+# Получение досок пользователя
+@router.get("/{username}/get_user_desks")
+async def get_user_desks(username: str):
+    query = {"owner": username}
+    result = list(desks_collection.find(query))
+    return result
 
 
 # Эндпоинты для задач

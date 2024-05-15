@@ -1,5 +1,10 @@
 # ФАЙЛ С ПРИМЕРАМИ ФУНКЦИЙ PyMongo
-from mongo_db_script import users_collection
+from routers import users_collection
+
+
+# Удаление одного документа из коллекции
+query = {"_id": 0}
+users_collection.delete_one(filter=query)
 
 
 # Вставка в коллекцию Users одного документа
@@ -29,13 +34,6 @@ for value in result:
 print("")
 
 
-# Чтение документов из коллекции с фильтром
-query = {"email": "kan@ban.craft"}
-result = users_collection.find(filter=query)
-for value in result:
-    print(value)
-
-
 # Удаление одного документа из коллекции
 query = {"_id": 0}
 users_collection.delete_one(filter=query)
@@ -44,3 +42,10 @@ users_collection.delete_one(filter=query)
 # Удаление нескольких документов из коллекции
 query = {"email": "kanban@craft.com"}
 users_collection.delete_many(filter=query)
+
+
+# Чтение документов из коллекции с фильтром
+query = {"email": "kan@ban.craft"}
+result = users_collection.find(filter=query)
+for value in result:
+    print(value)

@@ -1,19 +1,19 @@
 from fastapi import FastAPI
 import uvicorn
-from database.routers import router
+from database.tasks_router import router
 
 
-app = FastAPI(title="Kanbancraft")
-app.include_router(router)
+application = FastAPI(title="Kanbancraft")
+application.include_router(router)
 
 
-@app.get("/")
+@application.get("/")
 def greetings():
     return """Наш невероятный проект Канбан Крафт!"""
 
 
 def start():
-    uvicorn.run(app="app.main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run(app="main:application", reload=True)
 
 
 if __name__ == "__main__":

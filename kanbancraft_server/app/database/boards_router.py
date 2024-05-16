@@ -1,14 +1,7 @@
 from database.projects_router import router
-from database.routers import boards_collection
+from database.routers import boards_collection, Board
 # from pymongo.errors import DuplicateKeyError, BulkWriteError
 from pydantic import BaseModel
-
-
-class Board(BaseModel):
-    _id: str
-    board_id: str
-    project_id: str
-    board_name: str
 
 
 # Эндпоинты для досок

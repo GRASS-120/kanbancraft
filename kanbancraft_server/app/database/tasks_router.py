@@ -1,14 +1,7 @@
 from database.columns_router import router
-from database.routers import tasks_collection
+from database.routers import tasks_collection, Task
 from pymongo.errors import DuplicateKeyError, BulkWriteError
 from pydantic import BaseModel
-
-
-class Task(BaseModel):
-    _id: str
-    task_id: str
-    column_id: str
-    description: str
 
 
 # Эндпоинты для задач

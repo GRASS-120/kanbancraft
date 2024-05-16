@@ -1,15 +1,7 @@
 from database.boards_router import router
-from database.routers import columns_collection, tasks_collection
+from database.routers import columns_collection, tasks_collection, Column
 from pymongo.errors import DuplicateKeyError, BulkWriteError
 from pydantic import BaseModel
-
-
-class Column(BaseModel):
-    _id: str
-    column_id: str
-    board_id: str
-    column_name: str
-    color: str
 
 
 # Эндпоинты для колонок

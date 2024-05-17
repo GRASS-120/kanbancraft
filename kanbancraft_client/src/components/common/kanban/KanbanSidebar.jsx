@@ -1,34 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Используйте useNavigate вместо useHistory
 import './kanban.css';
-import AccordionDemo from './Acording';
+import AccordionComponent from './Acording';
 import * as Avatar from '@radix-ui/react-avatar';
+import AvatarComponent from './avatar'; 
+import avataIMG from '../../../assets/man_icon.jpg';
+import AddProjectDropdown from './AddProject';
+
 
 const KanbanSidebar = () => {
-  const navigate = useNavigate(); // Используйте useNavigate для навигации
+  const [projects, setProjects] = useState([
+    { projectName: "Проект 1", deskName: ["Доска 1", "Доска 2"] },
+    { projectName: "Проект 2", deskName: ["Доска 1", "Доска 2", "Доска 3"] },
+  ]);
 
-  // Функция для перехода в директорию kanban/avatar
+  const navigate = useNavigate();
+
   const navigateToAvatar = () => {
-    navigate('/kanban/account'); // Изменяем текущий путь на /kanban/avatar
+    navigate('/kanban/account');
   };
+
+
   
   return (
     <div className="kanbanSidebar">
       <div className="userGroup" onClick={navigateToAvatar}> 
-        <Avatar.Root className="circleAvatar">
-          <Avatar.Image src="путь_к_изображению" alt="U" />
-          <Avatar.Fallback delayMs={600}>U</Avatar.Fallback>
-        </Avatar.Root>
+      <AvatarComponent src={avataIMG} alt="U" size="45px" />
         <div variant="body1" className="username">Мой профиль</div>
       </div>
 
       <div className="myProject">
-        <div className="myProjectText">
-          Мои проекты
-        </div>
+
+          <dic style={{marginLeft: '15px'}}>Мои проекты</dic>
+          <div style={{marginLeft: '70px'}}>
+            <AddProjectDropdown projects={projects} setProjects={setProjects} />
+          </div>
+
       </div>
 
-      <AccordionDemo />
+      <AccordionComponent projects={projects} setProjects={setProjects}/>
     </div>
   );
 };

@@ -8,11 +8,8 @@ import avataIMG from '../../../assets/man_icon.jpg';
 import AddProjectDropdown from './AddProject';
 
 
-const KanbanSidebar = () => {
-  const [projects, setProjects] = useState([
-    { projectName: "Проект 1", deskName: ["Доска 1", "Доска 2"] },
-    { projectName: "Проект 2", deskName: ["Доска 1", "Доска 2", "Доска 3"] },
-  ]);
+const KanbanSidebar = ({ projects, setProjects, onSelectDesk }) => {
+  
 
   const navigate = useNavigate();
 
@@ -38,7 +35,7 @@ const KanbanSidebar = () => {
 
       </div>
 
-      <AccordionComponent projects={projects} setProjects={setProjects}/>
+      <AccordionComponent projects={projects} setProjects={setProjects} onSelectDesk={onSelectDesk} />
     </div>
   );
 };

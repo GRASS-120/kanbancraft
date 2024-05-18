@@ -8,6 +8,16 @@
   overflow-y: auto;
 }
 
+.landing_board {
+  color: white;
+  width: 100%; /* Заменил на 100vw для ширины экрана */
+  height: calc(100vh - 65px);; /* Используем calc для вычитания высоты header */
+  background-image: url('../assets/background.jpg');
+  background-size: cover;
+  background-position: center;
+  overflow-y: auto; /* Изменил на hidden чтобы убрать прокрутку */
+}
+
 .landing__content {
   display: flex;
   align-items: center;

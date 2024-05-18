@@ -1,0 +1,83 @@
+.trigger-buttonDesk {
+  margin: 8px 0px 8px 5%;
+  height: 30px;
+  width: 90%;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px; /* Обновлено для создания овальной формы */
+  background-color: rgba(49, 49, 49, 0.2);
+}
+.trigger-buttonDesk:hover {
+  background-color: rgba(49, 49, 49, 0.4);
+}
+
+.trigger-button {
+    height: 40px;
+    width: 40px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%; /* Обновлено для создания овальной формы */
+  }
+  
+  .trigger-button:hover {
+    background-color: rgba(49, 49, 49, 0.6);
+  }
+  
+  .menu-content {
+    margin: 60px 0 0 0;
+    background-color: rgba(79, 79, 79, 1);
+    border-radius: 5px;
+    padding:  20px 11px 14px 11px;
+    font-size: 20px;
+    width: 250px;
+  }
+  
+  .input-confirm-row {
+    margin-top: 8px;
+    display: flex; /* Используйте flexbox для выравнивания элементов в строке */
+    align-items: center; /* Выравнивание элементов по центру */
+  }
+
+  .input-field {
+    color: white;
+    font-size: 17px;
+    background-color: rgb(130, 130, 130); /* Цвет фона */
+    border-radius: 4px;
+    width: 50px; /* Это значение будет переопределено из-за flex-grow: 1 */
+    flex-grow: 1;
+    height: 30px;
+    margin: 0; /* Убедитесь, что внешние отступы отсутствуют или одинаковы */
+    border: none; /* Убираем границу */
+    
+  }
+
+  .input-field:focus {
+    border: none; /* Убираем фон при вводе */
+  }
+
+  .confirm-button {
+    margin-left: 6px; /* Отступ слева от кнопки */
+    height: 30px;
+    width: 30px;
+    background-color: rgb(111, 207, 151);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0; /* Убедитесь, что внутренние отступы отсутствуют или одинаковы */
+  }
+  
+  .confirm-button:hover {
+    background-color: #ddd;
+  }

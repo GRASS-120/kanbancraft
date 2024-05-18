@@ -7,12 +7,12 @@ from pydantic import BaseModel
 
 # Эндпоинты для проектов
 # ID владельца временно заткнуто заранее созданным пользователем
-owner = "6643c745a39ed4bae55787da"
+owner = "username"
 
 
 @router.get('/projects')
-async def get_all_projects(user_id: str) -> list[Project]:
-    query = dict(owner=owner)
+async def get_all_projects(nickname: str) -> list[Project]:
+    query = dict(owner=nickname)
     try:
         result = list(projects_collection.find(query))
         return result
@@ -21,8 +21,8 @@ async def get_all_projects(user_id: str) -> list[Project]:
 
 
 @router.post('/projects/add')
-async def add_project(user_id: str, project_name: str):
-    new_project = dict(project_id="", owner=owner, project_name=project_name, members=[])
+async def add_project(nickname: str, project_name: str):
+    new_project = dict(project_id="", owner=nickname, project_name=project_name, members=[])
     try:
         projects_collection.insert_one(new_project)
         result = list(projects_collection.find(new_project))[0]
@@ -36,8 +36,8 @@ async def add_project(user_id: str, project_name: str):
 
 
 @router.patch('/projects/{project_id}/change_name')
-async def update_project_name(user_id: str, project_id: str, new_project_name: str):
-    current_project = dict(owner=owner, project_id=project_id)
+async def update_project_name(nickname: str, project_id: str, new_project_name: str):
+    current_project = dict(owner=nickname, project_id=project_id)
     new_data = {"$set": dict(project_name=new_project_name)}
 
     try:

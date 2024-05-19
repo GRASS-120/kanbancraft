@@ -7,21 +7,21 @@ import ProjectIcon from '../../../assets/projectIcon.svg';
 import SubProjectIcon from '../../../assets/subprojectIcon.svg';
 import AddDeskDropdown from './AddDesk';
 
-const AccordionComponent = ({ projects, setProjects }) => (
+const AccordionComponent = ({ projects, setProjects, onSelectDesk }) => (
   <Accordion.Root className="AccordionRoot" type="single" defaultValue="item-1" collapsible>
     {projects.map((project, index) => (
       <Accordion.Item key={index} className="AccordionItem" value={`item-${index + 1}`}>
-        <AccordionTrigger project={project}  setProjects={setProjects} projects={projects}>
+        <AccordionTrigger project={project} setProjects={setProjects} projects={projects} onSelectDesk={onSelectDesk}>
           {project.projectName}
         </AccordionTrigger>
         <AccordionContent>
           <ul>
             <li>
-            <AddDeskDropdown projectId={project.id} projects={projects} setProjects={setProjects} />
+              <AddDeskDropdown projectId={project.id} projects={projects} setProjects={setProjects} />
             </li>
             {project.deskName.map((deskName, subIndex) => (
               <li key={subIndex}>
-                <AccordionButton>{deskName}</AccordionButton>
+                <AccordionButton onClick={() => onSelectDesk(deskName)}>{deskName}</AccordionButton> {/* Вызов onSelectDesk при выборе доски */}
               </li>
             ))}
           </ul>
@@ -31,12 +31,13 @@ const AccordionComponent = ({ projects, setProjects }) => (
   </Accordion.Root>
 );
 
-const AccordionTrigger = React.forwardRef(({ children, project, setProjects, projects, ...props }, forwardedRef) => (
+const AccordionTrigger = React.forwardRef(({ children, project, setProjects, onSelectDesk, projects, ...props }, forwardedRef) => (
   <Accordion.Header className="AccordionHeader">
     <Accordion.Trigger
       className={classNames('AccordionTrigger')}
       {...props}
       ref={forwardedRef}
+      onClick={() => onSelectDesk(children)}
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>

@@ -3,8 +3,7 @@ import KanbanBackground from '../components/common/kanban/KanbanBackground';
 import backgroundIMG from "../assets/background.jpg"
 
 const AccountPage = () => {
-  return <div>
-    <KanbanBackground backgroundIMG={backgroundIMG} />
+  return <div className='landing_board'>
   </div>;
 };
 

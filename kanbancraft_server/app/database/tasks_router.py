@@ -22,7 +22,7 @@ async def post_task(column_id: str, description: str):
     return 201
 
 
-@router.patch("/tasks/{task_id}/move_to/{new_column}")
+@router.patch("/tasks/{task_id}/move_to/{new_column_id}")
 async def move_task(task_id: str, new_column_id: str):
     current_task = dict(task_id=task_id)
     new_data = {"$set": dict(column_id=new_column_id)}

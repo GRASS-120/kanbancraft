@@ -1,6 +1,5 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: '',
-  // headers: {'X-Custom-Header': 'foobar'}
+  baseURL: 'http://127.0.0.1:8000',
 });

@@ -1,26 +1,46 @@
 import { api } from './instance';
 
-export const getAllProjects = async () => {
+export const getAllProjectsByNickname = async (nickname) => {
   try {
-    const res = await api.get('/projects');
+    const res = await api.get(`/projects?nickname=${nickname}`);
     return res.data;
   } catch (error) {
     console.error('Ошибка при выполнении GET запроса:', error);
   }
 };
 
-export const addProject = async (payload) => {
+export const addProject = async (nickname, projectName) => {
   try {
-    const res = await api.post('/data', payload);
+    const res = await api.post(
+      `/projects/add?nickname=${nickname}&project_name=${projectName}`
+    );
     return res.data;
   } catch (error) {
     console.error('Ошибка при выполнении POST запроса:', error);
   }
 };
 
-export const updateProjectName = async (projectId, payload) => {
+export const updateProjectNameById = async (
+  projectId,
+  nickname,
+  newProjectName
+) => {
   try {
-    const res = await api.patch(`/projects/${projectId}`, payload);
+    const res = await api.patch(
+      `/projects/${projectId}/change_name?nickname=${nickname}&new_project_name=${newProjectName}`
+    );
+    return res.data;
+  } catch (error) {
+    console.error('Ошибка при выполнении PATCH запроса:', error);
+  }
+};
+
+// ! пока не работает, так как нет юзеров
+export const inviteUserInProject = async (projectId, newMemberId) => {
+  try {
+    const res = await api.patch(
+      `/projects/${projectId}/invite?new_member_id=${newMemberId}`
+    );
     return res.data;
   } catch (error) {
     console.error('Ошибка при выполнении PATCH запроса:', error);

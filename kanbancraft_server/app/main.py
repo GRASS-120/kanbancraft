@@ -1,10 +1,19 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from database.tasks_router import router
 
 
 application = FastAPI(title="Kanbancraft")
 application.include_router(router)
+
+application.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # Разрешить все источники
+    allow_credentials=True,
+    allow_methods=["*"], # Разрешить все методы (GET, POST, PUT, DELETE и т.д.)
+    allow_headers=["*"], # Разрешить все заголовки
+) 
 
 
 @application.get("/")

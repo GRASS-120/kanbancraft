@@ -1,7 +1,10 @@
 from pydantic import BaseModel
 from database.routers import router, users_collection, User
 from pymongo.errors import DuplicateKeyError, BulkWriteError
-from fastapi import HTTPException
+from fastapi import HTTPException,, Depends
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+
+security = HTTPBasic()
 
 
 # идентификатор "костыльного" пользователя: 6643c745a39ed4bae55787da
@@ -21,6 +24,23 @@ def get_user_by_nickname(nickname: str) -> User:
 def get_all_users() -> list[User]:
     result = list(users_collection.find())
     return result
+
+@router.post("/users/register")
+def register_user(credentials: HTTPBasicCredentials = Depends(security)):
+    new_user = dict(nickname=credentials.username, password=credentials.password)
+    user_in_db = users_collection.find_one({"nickname": credentials.username})
+    if user_in_db:
+        raise HTTPException(status_code=400, detail="Nickname already registered")
+    users_collection.insert_one(new_user)
+    return {"username": credentials.username, "password": credentials.password}
+
+
+@router.get("/users/login")
+def login_user(credentials: HTTPBasicCredentials = Depends(security)):
+    user = users_collection.find_one({"nickname": credentials.username})
+    if not user or user["password"] != credentials.password:
+        raise HTTPException(status_code=400, detail="Invalid username or password")
+    return {"message": "Login successful"}
 
 
 @router.patch("/users/{nickname}/change_password")

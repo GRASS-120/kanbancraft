@@ -47,7 +47,7 @@ async def update_project_name(nickname: str, project_id: str, new_project_name: 
         raise HTTPException(status_code=400, detail="No such users or projects")
 
 
-@router.patch('/projects/{project_id}/change_name')
+@router.patch('/projects/{project_id}/invite')
 async def add_member_to_project(new_member_id: str, project_id: str):
     current_project = dict(project_id=project_id)
     temp = list(projects_collection.find(current_project))[0]

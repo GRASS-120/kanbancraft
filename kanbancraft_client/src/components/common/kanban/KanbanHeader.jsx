@@ -20,9 +20,7 @@ const KanbanHeader = ({ userNicknames, selectedDesk }) => {
 
   return (
     <div className="kanban-header">
-      <div className="selectedDesk">
-        {selectedDesk}
-      </div>
+      
       <Dialog.Root>
         <Dialog.Trigger asChild>
           <div className="avatar">
@@ -76,6 +74,9 @@ const KanbanHeader = ({ userNicknames, selectedDesk }) => {
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
+      <div className="selectedDesk">
+        {selectedDesk}
+      </div>
     </div>
   );
 };

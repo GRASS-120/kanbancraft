@@ -16,6 +16,7 @@
   background-size: cover;
   background-position: center;
   overflow-y: auto; /* Изменил на hidden чтобы убрать прокрутку */
+  
 }
 
 .landing__content {

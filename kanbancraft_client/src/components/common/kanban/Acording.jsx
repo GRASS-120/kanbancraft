@@ -5,6 +5,7 @@ import { ChevronDownIcon } from '@radix-ui/react-icons';
 import './acording.css';
 import ProjectIcon from '../../../assets/projectIcon.svg';
 import SubProjectIcon from '../../../assets/subprojectIcon.svg';
+
 import AddDeskDropdown from './AddDesk';
 
 const AccordionComponent = ({ projects, setProjects, onSelectDesk }) => (

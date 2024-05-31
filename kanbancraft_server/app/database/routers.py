@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 import pymongo as pm
 from pydantic import BaseModel
-from pymongo import IndexModel, ASCENDING, DESCENDING
 
 router = APIRouter()
 
@@ -15,6 +14,13 @@ projects_collection = database.Projects
 boards_collection = database.Boards
 columns_collection = database.Columns
 tasks_collection = database.Tasks
+
+
+def create_database_indexes():
+    users_collection.create_index([('nickname', pm.TEXT)], name='nickname_text')
+    projects_collection.create_index([('owner', pm.TEXT), ('project_name', pm.TEXT)])
+    boards_collection.create_index([('project_id', pm.TEXT), ('board_name', pm.TEXT)])
+    columns_collection.create_index([('board_id', pm.TEXT), ('column_name', pm.TEXT)])
 
 
 class User(BaseModel):

@@ -1,25 +1,29 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import './AddProject.css';
+import { addBoard } from '../../../api/api_board';
+import { MyContext } from './selectedBoard';
 
-const AddDeskDropdown = ({ projectId, projects, setProjects }) => {
+const AddDeskDropdown = ({ projectId,updateProjects}) => {
     const [newDeskName, setNewDeskName] = useState('');
+    const {selectedProject,aufUser} = useContext(MyContext);
   
-    const addDesk = (event) => {
-      event.preventDefault(); // Предотвратить стандартное поведение формы
-      if (!newDeskName.trim()) return; // Проверка на пустое имя доски
-  
-      // Обновляем проект с новой доской, используя projectId для поиска
-      const updatedProjects = projects.map(project => {
-        if (project.id === projectId) { // Теперь используем id для идентификации проекта
-          return { ...project, deskName: [...project.deskName, newDeskName] };
-        }
-        return project;
-      });
-  
-      setProjects(updatedProjects);
-      setNewDeskName(''); // Очистить поле ввода после добавления доски
-    };
+    const addDesk = async (event) => {
+      // Предотвращение стандартного поведения формы
+    event.preventDefault();
+    
+    // Вызов API для добавления проекта
+    try {
+      console.log(await addBoard(selectedProject, newDeskName))
+      updateProjects()
+      // Обновление состояния проектов
+    } catch (error) {
+      console.error('Ошибка при добавлении доски:', error);
+    }
+
+    // Очистка поля ввода и закрытие выпадающего меню
+    setNewDeskName('');
+  };
 
   return (
     <DropdownMenu.Root>

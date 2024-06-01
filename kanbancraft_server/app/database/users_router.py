@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from database.routers import router, users_collection, User
 from pymongo.errors import DuplicateKeyError, BulkWriteError
-from fastapi import HTTPException,, Depends
+from fastapi import HTTPException, Depends
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
 security = HTTPBasic()

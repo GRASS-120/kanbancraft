@@ -1,8 +1,12 @@
-from pydantic import BaseModel
+from pymongo.errors import *
 from database.routers import router, users_collection, User
+<<<<<<< HEAD
 from pymongo.errors import DuplicateKeyError, BulkWriteError
+=======
+>>>>>>> b12ac40633230bc6aa901105d03d36564c0d0037
 from fastapi import HTTPException, Depends
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
+
 
 security = HTTPBasic()
 
@@ -14,43 +18,70 @@ security = HTTPBasic()
 # результат поиска пользователя в базе выдаётся в виде итератора
 # поэтому для получения списка пользователей нужно сначала итератор превратить с "список" из одного элемента
 @router.get("/users/nickname={nickname}")
-def get_user_by_nickname(nickname: str) -> User:
-    query = dict(nickname=nickname)
-    result = list(users_collection.find(query))[0]
+async def get_user_by_nickname(nickname: str) -> User:
+    try:
+        query = dict(nickname=nickname)
+        result = list(users_collection.find(query))[0]
+        if result is None:
+            raise HTTPException(status_code=404, detail="User not found")
+    except CollectionInvalid:
+        raise HTTPException(status_code=404, detail="Collection not found")
     return result
 
 
 @router.get("/users/all")
-def get_all_users() -> list[User]:
-    result = list(users_collection.find())
+async def get_all_users() -> list[User]:
+    try:
+        result = list(users_collection.find())
+        if len(result) == 0:
+            raise HTTPException(status_code=404, detail="Users not found")
+    except CollectionInvalid:
+        raise HTTPException(status_code=404, detail="Collection not found")
     return result
 
+
 @router.post("/users/register")
-def register_user(credentials: HTTPBasicCredentials = Depends(security)):
+async def register_user(credentials: HTTPBasicCredentials = Depends(security)):
     new_user = dict(nickname=credentials.username, password=credentials.password)
-    user_in_db = users_collection.find_one({"nickname": credentials.username})
+
+    try:
+        user_in_db = users_collection.find_one({"nickname": credentials.username})
+    except CollectionInvalid:
+        raise HTTPException(status_code=404, detail="Collection invalid")
+
     if user_in_db:
         raise HTTPException(status_code=400, detail="Nickname already registered")
     users_collection.insert_one(new_user)
+
     return {"username": credentials.username, "password": credentials.password}
 
 
 @router.get("/users/login")
-def login_user(credentials: HTTPBasicCredentials = Depends(security)):
-    user = users_collection.find_one({"nickname": credentials.username})
+async def login_user(credentials: HTTPBasicCredentials = Depends(security)):
+    try:
+        user = users_collection.find_one({"nickname": credentials.username})
+    except CollectionInvalid:
+        raise HTTPException(status_code=404, detail="Collection invalid")
+
     if not user or user["password"] != credentials.password:
         raise HTTPException(status_code=400, detail="Invalid username or password")
+
     return {"message": "Login successful"}
 
 
-@router.patch("/users/{nickname}/change_password")
-def change_password(nickname: str, old_password: str, new_password: str):
-    current_user = dict(nickname=nickname)
+@router.patch("/users/{nickname}/change_password", status_code=200)
+async def change_password(new_password: str, credentials: HTTPBasicCredentials = Depends(security)):
+    current_user = dict(nickname=credentials.username)
     new_data = {"$set": dict(password=new_password)}
 
-    result = list(users_collection.find(current_user))[0]
-    if result.get("password") == old_password:
-        users_collection.update_one(current_user, new_data)
-        return 201
+    try:
+        user = list(users_collection.find(current_user))[0]
+    except CollectionInvalid:
+        raise HTTPException(status_code=404, detail="Collection invalid")
+
+    if not user or user["password"] != credentials.password:
+        raise HTTPException(status_code=400, detail="Invalid username or password")
     else:
-        return 404
+        users_collection.update_one(current_user, new_data)
+
+    return {"message": "Password changed successfully"}

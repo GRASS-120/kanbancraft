@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from pymongo.errors import InvalidOperation, WriteError, DuplicateKeyError
 from database.endpoints.projects_router import router
-from database.routers import boards_collection, Board
+from database.routers import projects_collection, boards_collection, Board
 
 
 # Эндпоинты для досок
@@ -9,10 +9,11 @@ from database.routers import boards_collection, Board
 async def get_boards_by_project_id(project_id: str) -> list[Board]:
     query = dict(project_id=project_id)
 
-    try:
-        result = list(boards_collection.find(query))
-    except InvalidOperation:
-        raise HTTPException(status_code=404, detail="This project does not exist or does not have boards")
+    project = list(projects_collection.find(dict(project_id=project_id)))
+    if project is None:
+        raise HTTPException(status_code=404, detail="This project does not exist")
+
+    result = list(boards_collection.find(query))
 
     return result
 
@@ -21,6 +22,10 @@ async def get_boards_by_project_id(project_id: str) -> list[Board]:
 async def add_board(project_id: str, board_name: str):
     new_board = dict(board_id="", project_id=project_id, board_name=board_name)
 
+    project = list(projects_collection.find(dict(project_id=project_id)))
+    if project is None:
+        raise HTTPException(status_code=404, detail="This project does not exist")
+
     try:
         board_id = boards_collection.insert_one(new_board)
     except DuplicateKeyError:
@@ -28,11 +33,12 @@ async def add_board(project_id: str, board_name: str):
     except WriteError:
         raise HTTPException(status_code=400, detail="Board was not created")
 
+    new_data = {"$set": {"board_id": str(board_id.inserted_id)}}
     try:
-        new_data = {"$set": {"board_id": str(board_id.inserted_id)}}
         boards_collection.update_one(new_board, new_data)
     except WriteError:
-        raise HTTPException(status_code=404, detail="This project does not exist")
+        boards_collection.delete_one({"board_id": str(board_id.inserted_id)})
+        raise HTTPException(status_code=404, detail="Board ID writing error")
 
     return {"message": "Board was successfully created"}
 
@@ -41,8 +47,12 @@ async def add_board(project_id: str, board_name: str):
 async def update_board_name(board_id: str, new_name):
     current_board = dict(board_id=board_id)
 
+    board = list(boards_collection.find(dict(board_id=board_id)))
+    if board is None:
+        raise HTTPException(status_code=404, detail="This board does not exist")
+
+    new_data = {"$set": dict(board_name=new_name)}
     try:
-        new_data = {"$set": dict(board_name=new_name)}
         boards_collection.update_one(current_board, new_data)
     except WriteError:
         raise HTTPException(status_code=400, detail="Board name was not updated")

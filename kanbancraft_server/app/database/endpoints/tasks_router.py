@@ -2,13 +2,18 @@ from fastapi import HTTPException
 from pymongo.errors import CollectionInvalid, WriteError
 
 from database.endpoints.columns_router import router
-from database.routers import tasks_collection, Task
+from database.routers import tasks_collection, Task, columns_collection
 
 
 # Эндпоинты для задач
 @router.get("/tasks")
 async def get_tasks_by_column_id(column_id: str) -> list[Task]:
     query = dict(column_id=column_id)
+
+    column = list(columns_collection.find(dict(column_id=column_id)))
+    if column is None:
+        raise HTTPException(status_code=404, detail="This column does not exist")
+
     try:
         result = list(tasks_collection.find(query))
     except CollectionInvalid:
@@ -20,6 +25,10 @@ async def get_tasks_by_column_id(column_id: str) -> list[Task]:
 @router.post("/tasks/add")
 async def post_task(column_id: str, description: str):
     new_task = dict(task_id="", column_id=column_id, description=description)
+
+    column = list(columns_collection.find(dict(column_id=column_id)))
+    if column is None:
+        raise HTTPException(status_code=404, detail="This column does not exist")
 
     try:
         task_id = tasks_collection.insert_one(new_task)
@@ -40,6 +49,10 @@ async def move_task(task_id: str, new_column_id: str):
     current_task = dict(task_id=task_id)
     new_data = {"$set": dict(column_id=new_column_id)}
 
+    column = list(columns_collection.find(dict(column_id=new_column_id)))
+    if column is None:
+        raise HTTPException(status_code=404, detail="This new_column does not exist")
+
     try:
         tasks_collection.update_one(current_task, new_data)
     except WriteError:
@@ -53,6 +66,10 @@ async def edit_task_description(task_id: str, new_description):
     current_task = dict(task_id=task_id)
     new_data = {"$set": dict(description=new_description)}
 
+    task = list(tasks_collection.find(dict(task_id=task_id)))
+    if task is None:
+        raise HTTPException(status_code=404, detail="This task does not exist")
+
     try:
         tasks_collection.update_one(current_task, new_data)
     except WriteError:
@@ -64,6 +81,10 @@ async def edit_task_description(task_id: str, new_description):
 @router.delete("/tasks/{task_id}/delete")
 async def delete_task(task_id: str):
     query = dict(task_id=task_id)
+
+    task = list(tasks_collection.find(dict(task_id=task_id)))
+    if task is None:
+        raise HTTPException(status_code=404, detail="This task does not exist")
 
     try:
         tasks_collection.delete_one(query)

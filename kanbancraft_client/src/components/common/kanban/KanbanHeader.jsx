@@ -5,20 +5,20 @@ import './KanbanHeader.css';
 import avataIMG from '../../../assets/man_icon.jpg';
 import AvatarComponent from './avatar';
 import { MyContext } from './selectedBoard';
+import { inviteUserInProject } from '../../../api/api_project';
 
 const KanbanHeader = ({ userNicknames, projects }) => {
   const { selectedBoard, setSelectedBoard, selectedProject, setSelectedProject } = useContext(MyContext);
 
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+  const handleNameChange = (e) => {
+    setName(e.target.value);
   };
 
-  const handleInvite = () => {
-    // Действия при нажатии на кнопку "Подтвердить"
-    console.log('Email:', email);
-    // Дополнительные действия, например, отправка запроса на сервер
+  const handleInvite = async () => {
+    console.log(await inviteUserInProject(name));
+    setName('');
   };
 
   // Находим название проекта по project_id
@@ -51,10 +51,10 @@ const KanbanHeader = ({ userNicknames, projects }) => {
             </Dialog.Description>
             <div className="InputContainer">
               <input
-                type="email"
-                value={email}
-                onChange={handleEmailChange}
-                placeholder="Введите почту участника..."
+                type="name"
+                value={name}
+                onChange={handleNameChange}
+                placeholder="Введите имя участника..."
                 className="InputField"
               />
               <button className="ConfirmButton" onClick={handleInvite}>
@@ -63,14 +63,14 @@ const KanbanHeader = ({ userNicknames, projects }) => {
             </div>
             <div style={{ marginTop: '25px' }}>Участники проекта</div>
             <div className="ParticipantList">
-            {userNicknames.map((nickname, index) => (
-              <div key={index} className="ParticipantItem">
-                <AvatarComponent src={avataIMG} alt={nickname} size="30px" />
-                <div className="ParticipantInfo">
-                  <div className="ParticipantName">{nickname}</div>
+              {userNicknames.map((nickname, index) => (
+                <div key={index} className="ParticipantItem">
+                  <AvatarComponent src={avataIMG} alt={nickname} size="30px" />
+                  <div className="ParticipantInfo">
+                    <div className="ParticipantName">{nickname}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
             </div>
             <Dialog.Close asChild>
               <button className="IconButton" aria-label="Close">

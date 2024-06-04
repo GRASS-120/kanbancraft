@@ -15,13 +15,24 @@
   background-color: white;
 }
 
-.form__content p {
+/* .form__content p {
+  margin: 0 0 25px 0;
+  font-size: 36px;
+  color: #333333;
+} */
+
+.form_text {
   margin: 0 0 25px 0;
   font-size: 36px;
   color: #333333;
 }
 
-.form__content input {
+.form_error_text {
+  font-size: 26px;
+  color: rgb(228, 50, 50);
+}
+
+.form_input {
   margin-top: 25px;
   font-size: 20px;
   padding: 18px;
@@ -29,6 +40,18 @@
   border: none;
   background-color: #f2f2f2;
   color: #828282;
+}
+
+.form_input__error {
+  margin-top: 25px;
+  font-size: 20px;
+  padding: 18px;
+  border-radius: 15px;
+  border: none;
+  background-color: #f2f2f2;
+  color: #828282;
+  outline: 2px solid rgb(228, 50, 50);
+  outline-offset: -2px;
 }
 
 .form__content input:focus {

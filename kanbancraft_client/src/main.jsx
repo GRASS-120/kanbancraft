@@ -9,8 +9,7 @@ import './index.css';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <SelectedBoard>
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </SelectedBoard>
-    
   </React.StrictMode>
 );

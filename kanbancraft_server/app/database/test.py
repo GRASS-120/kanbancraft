@@ -18,7 +18,7 @@ def add_test_data():
     columns_ids: list[str] = []
 
     # добавление тестовых проектов
-    test_projects = [{"project_id": "", "owner": f"test_user_{[i]}", "project_name": f"test_project_{i}", "members": [f"test_user_{[i]}"]} for i in range(20)]
+    test_projects = [{"project_id": "", "owner": f"test_user_{i}", "project_name": f"test_project_{i}", "members": [f"test_user_{i}"]} for i in range(20)]
     try:
         result = projects_collection.insert_many(test_projects)
         projects_ids = [str(x) for x in result.inserted_ids]

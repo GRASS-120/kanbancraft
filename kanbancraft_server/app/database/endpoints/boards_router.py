@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from pymongo.errors import InvalidOperation, WriteError, DuplicateKeyError
-from database.projects_router import router
+from database.endpoints.projects_router import router
 from database.routers import boards_collection, Board
 
 

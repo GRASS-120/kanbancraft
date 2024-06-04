@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from database.routers import create_database_indexes
-from database.tasks_router import router
+from database.endpoints.tasks_router import router
 
 
 application = FastAPI(title="Kanbancraft")

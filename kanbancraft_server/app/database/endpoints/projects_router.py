@@ -1,5 +1,5 @@
-from database.users_router import router
-from database.routers import projects_collection, Project
+from database.endpoints.users_router import router
+from database.routers import projects_collection, users_collection, Project
 from pymongo.errors import DuplicateKeyError, InvalidOperation, WriteError
 from fastapi import HTTPException
 
@@ -10,12 +10,24 @@ from fastapi import HTTPException
 
 @router.get('/projects')
 async def get_all_projects_by_nickname(nickname: str) -> list[Project]:
-    query = dict(owner=nickname)
+    result: list[Project] = []
+    query = dict(nickname=nickname)
 
     try:
-        result = list(projects_collection.find(query))
-    except InvalidOperation:
-        raise HTTPException(status_code=404, detail="This user has no projects")
+        user = list(users_collection.find(query))[0]
+        projects = user.get('projects')
+        if projects is [] or projects is None:
+            raise HTTPException(status_code=404, detail="This user has no projects")
+    except IndexError:
+        raise HTTPException(status_code=404, detail="This user does not exist")
+
+    for project_id in projects:
+        query = dict(project_id=project_id)
+        try:
+            project = list(projects_collection.find(query))[0]
+            result.append(project)
+        except IndexError:
+            pass
 
     return result
 

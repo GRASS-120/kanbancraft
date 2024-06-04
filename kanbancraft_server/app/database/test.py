@@ -16,19 +16,9 @@ def add_test_data():
     projects_ids: list[str] = []
     boards_ids: list[str] = []
     columns_ids: list[str] = []
-    tasks_ids: list[str] = []
-
-    # добавление тестовых пользователей
-    test_users = [{"nickname": f"test_user_{i}", "password": f"test_password_{i}"} for i in range(20)]
-    try:
-        result = users_collection.insert_many(test_users)
-        owners_ids = [str(x) for x in result.inserted_ids]
-        print(f"Added user examples")
-    except DuplicateKeyError:
-        print("User examples are already added")
 
     # добавление тестовых проектов
-    test_projects = [{"project_id": "", "owner": f"{owners_ids[i]}", "project_name": f"test_project_{i}", "members": []} for i in range(20)]
+    test_projects = [{"project_id": "", "owner": f"test_user_{[i]}", "project_name": f"test_project_{i}", "members": [f"test_user_{[i]}"]} for i in range(20)]
     try:
         result = projects_collection.insert_many(test_projects)
         projects_ids = [str(x) for x in result.inserted_ids]
@@ -38,6 +28,15 @@ def add_test_data():
         print(f"Added project examples")
     except DuplicateKeyError:
         print("Project examples are already added")
+
+    # добавление тестовых пользователей
+    test_users = [{"nickname": f"test_user_{i}", "password": f"test_password_{i}", "projects": [projects_ids[i]]} for i in range(20)]
+    try:
+        result = users_collection.insert_many(test_users)
+        owners_ids = [str(x) for x in result.inserted_ids]
+        print(f"Added user examples")
+    except DuplicateKeyError:
+        print("User examples are already added")
 
     # добавление тестовых досок
     test_boards = [{"board_id": "", "project_id": f"{projects_ids[i]}", "board_name": f"test_project_{i}"} for i in range(20)]

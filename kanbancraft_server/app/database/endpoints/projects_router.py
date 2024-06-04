@@ -41,7 +41,7 @@ async def get_project_members(project_id):
 @router.post('/projects/add')
 async def add_project(nickname: str, project_name: str):
     current_user = dict(nickname=nickname)
-    new_project = dict(project_id="", owner=nickname, project_name=project_name, members=[])
+    new_project = dict(project_id="", owner=nickname, project_name=project_name, members=[nickname])
     check_data = dict(owner=nickname, project_name=project_name)
 
     user = users_collection.find_one(current_user)

@@ -15,14 +15,17 @@ async def get_user_by_nickname(nickname: str) -> User:
     return result
 
 
-@router.get("/users/all")
+@router.get("/users")
 async def get_all_users() -> list[User]:
     try:
         result = list(users_collection.find())
+        print(result)
+
         if len(result) == 0:
             raise HTTPException(status_code=404, detail="Users not found")
     except CollectionInvalid:
         raise HTTPException(status_code=404, detail="Collection not found")
+
     return result
 
 

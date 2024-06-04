@@ -14,11 +14,12 @@
     border-radius: 25px;
     margin-right: 17px;
     width: 351px;
+    background-color: #DE5959;
   }
   
   .kanban-column {
     height: 100%- 17px;
-    border-radius: 25px;
+    border-radius: 24px;
     width: 351px;
     background-color: rgba(238, 238, 238, 0.9);
     display: flex;
@@ -34,8 +35,8 @@
     -moz-user-select: none; /* Для Firefox */
     -ms-user-select: none; /* Для Internet Explorer/Edge */
     user-select: none;
-    
   }
+
 
   .add-task-btn {
     width: 186px;
@@ -77,6 +78,26 @@
     background-color: rgba(255, 255, 255, 0.2);
   }
 
+  .change-cboard-btn{
+    width: 202px;
+    height: 31px;
+    margin-bottom: 70px;
+    background-color: rgba(255, 0, 0, 0.623);
+    color: #ffffff;
+    border-radius: 10px;
+    border: none;
+    padding-left: 10px;
+  }
+
+  .change-cboard-btn:hover {
+    background-color: rgba(255, 0, 0, 0.361);
+  }
+  
+  .change-cboard-btn:active {
+    background-color: rgba(255, 0, 0, 0.361);
+  }
+
+
   .task-container {
     display: flex;
     flex-direction: column;
@@ -116,11 +137,10 @@
   }
   
   .color-picker {
-    background-color: #F2F2F2;
+    background-color: transparent;
     display: flex;
     justify-content: space-between;
-    padding: 30px 10px 30px 10px;
-    border-radius: 10px;
+    padding: 20px 10px 10px 10px;
 }
 
 .color-option {
@@ -130,3 +150,87 @@
     margin-right: 5px;
     cursor: pointer;
 }
+
+
+
+.delete-button {
+  background-color: transparent;
+  color: #333333;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.delete-button:hover {
+  opacity: 0.5;
+}
+
+.popover-content {
+  background-color: #F2F2F2;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: -6px;
+}
+
+.textarea-task {
+  width: 100%;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding: 0px 0px 20px 0px;
+  min-width: 250px;
+  min-height: 100px;
+  border-radius: 6px;
+  font-size: 20px;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between; /* Горизонтальное выравнивание */
+  align-items: center;
+  background-color: rgba(111, 207, 151, 1);
+  padding: 4px;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.buttons-container:hover{
+  background-color: rgba(111, 207, 151, 0.785);
+}
+
+.input-colum{
+  flex: 1;
+  padding: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  margin: 10px 8px 10px 0px;
+}
+
+.task-move-button {
+  background: none;
+  border: none;
+  padding: 2px; /* Removed the duplicate padding property */
+  border-radius: 6px;
+  display: flex; /* Added to center the image within the button */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  width: 30px; /* Set a fixed width */
+  height: 30px; /* Set a fixed height */
+}
+
+.task-move-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the arrow images within the buttons */
+.arrow-image {
+  width: 23px;
+  height: 23px;
+}
+
+.task-move-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around; /* Changed to 'space-around' for equal spacing */
+}
+

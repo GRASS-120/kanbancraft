@@ -1,5 +1,9 @@
 from pymongo.errors import *
 from database.routers import router, users_collection, User
+<<<<<<< HEAD
+from pymongo.errors import DuplicateKeyError, BulkWriteError
+=======
+>>>>>>> b12ac40633230bc6aa901105d03d36564c0d0037
 from fastapi import HTTPException, Depends
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 

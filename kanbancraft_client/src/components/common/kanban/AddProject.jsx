@@ -1,15 +1,30 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { useState } from 'react';
-import './AddProject.css'; // Импорт стилей
+import { useState, useContext } from 'react';
+import './AddProject.css';
+import { MyContext } from './selectedBoard';
+// Импорт функции API для добавления проекта
+import { addProject} from '../../../api/api_project';
 
-const AddProjectDropdown = ({ projects, setProjects }) => {
+const AddProjectDropdown = ({ projects, setProjects, nickname, updateProjects }) => {
   const [newProjectName, setNewProjectName] = useState('');
+  const {aufUser} = useContext(MyContext);
 
-  const addProject = (event) => {
-    const newProject = { projectName: newProjectName, deskName: [] };
-    setProjects([...projects, newProject]);
-    setNewProjectName(''); // Очистить поле ввода после добавления проекта
-    event.target.closest('[data-radix-dropdown-menu-content]').blur(); // Закрыть выпадающее меню
+  // Функция для добавления нового проекта
+  const addProjectAPI = async (event) => {
+    // Предотвращение стандартного поведения формы
+    event.preventDefault();
+    
+    // Вызов API для добавления проекта
+    try {
+      const projectData = await addProject(aufUser, newProjectName);
+      updateProjects()
+      // Обновление состояния проектов
+    } catch (error) {
+      console.error('Ошибка при добавлении проекта:', error);
+    }
+
+    // Очистка поля ввода и закрытие выпадающего меню
+    setNewProjectName('');
   };
 
   return (
@@ -19,16 +34,16 @@ const AddProjectDropdown = ({ projects, setProjects }) => {
       </DropdownMenu.Trigger>
       <DropdownMenu.Content className="menu-content" side="right">
         <DropdownMenu.Label>Создать проект</DropdownMenu.Label>
-        <div className="input-confirm-row">
+        <form onSubmit={addProjectAPI} className="input-confirm-row">
           <input
             className="input-field"
             type="text"
-            placeholder="Название проекта..." // Добавленный атрибут placeholder
+            placeholder="Название проекта..."
             value={newProjectName}
             onChange={(e) => setNewProjectName(e.target.value)}
           />
-          <button className="confirm-button" onClick={addProject}>+</button>
-        </div>
+          <button type="submit" className="confirm-button">+</button>
+        </form>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );

@@ -9,6 +9,15 @@ export const getAllProjectsByNickname = async (nickname) => {
   }
 };
 
+export const getProjectMembersById = async (projectId) => {
+  try {
+    const res = await api.get(`/projects/${projectId}/users`);
+    return res.data;
+  } catch (error) {
+    console.error('Ошибка при выполнении GET запроса:', error);
+  }
+};
+
 export const addProject = async (nickname, projectName) => {
   try {
     const res = await api.post(
@@ -39,7 +48,7 @@ export const updateProjectNameById = async (
 export const inviteUserInProject = async (projectId, newMemberId) => {
   try {
     const res = await api.patch(
-      `/projects/${projectId}/invite?new_member_id=${newMemberId}`
+      `/projects/${projectId}/invite_member?new_member_id=${newMemberId}`
     );
     return res.data;
   } catch (error) {

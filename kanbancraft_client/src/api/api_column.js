@@ -32,7 +32,7 @@ export const updateColumnName = async (columnId, newName) => {
 };
 
 export const updateColumnColor = async (columnId, newColor) => {
-  console.log(columnId, newColor)
+  console.log(columnId, newColor);
   try {
     const res = await api.patch(
       `/columns/${columnId}/change_color?new_color=${newColor}`

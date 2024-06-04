@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from pymongo.errors import InvalidOperation, WriteError, DuplicateKeyError, CollectionInvalid
-from database.boards_router import router
+from database.endpoints.boards_router import router
 from database.routers import columns_collection, tasks_collection, Column
 
 

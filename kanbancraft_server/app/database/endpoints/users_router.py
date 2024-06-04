@@ -1,22 +1,13 @@
 from pymongo.errors import *
 from database.routers import router, users_collection, User
-<<<<<<< HEAD
-from pymongo.errors import DuplicateKeyError, BulkWriteError
-=======
->>>>>>> b12ac40633230bc6aa901105d03d36564c0d0037
-from fastapi import HTTPException, Depends
+from fastapi import HTTPException, Depends, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from fastapi.responses import HTMLResponse
 
 
 security = HTTPBasic()
 
 
-# идентификатор "костыльного" пользователя: 6643c745a39ed4bae55787da
-# модель пользователя с пояснениями лежит в routers
-
-
-# результат поиска пользователя в базе выдаётся в виде итератора
-# поэтому для получения списка пользователей нужно сначала итератор превратить с "список" из одного элемента
 @router.get("/users/nickname={nickname}")
 async def get_user_by_nickname(nickname: str) -> User:
     try:
@@ -42,7 +33,7 @@ async def get_all_users() -> list[User]:
 
 @router.post("/users/register")
 async def register_user(credentials: HTTPBasicCredentials = Depends(security)):
-    new_user = dict(nickname=credentials.username, password=credentials.password)
+    new_user = dict(nickname=credentials.username, password=credentials.password, projects=[])
 
     try:
         user_in_db = users_collection.find_one({"nickname": credentials.username})
@@ -67,6 +58,11 @@ async def login_user(credentials: HTTPBasicCredentials = Depends(security)):
         raise HTTPException(status_code=400, detail="Invalid username or password")
 
     return {"message": "Login successful"}
+
+
+@router.post("/users/logout")
+async def logout_user():
+    return HTMLResponse(status_code=status.HTTP_401_UNAUTHORIZED)
 
 
 @router.patch("/users/{nickname}/change_password", status_code=200)

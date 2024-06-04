@@ -1,18 +1,13 @@
 from pymongo.errors import *
 from database.routers import router, users_collection, User
-from fastapi import HTTPException, Depends, status
-from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from fastapi.responses import HTMLResponse
+from fastapi import HTTPException
 
 
-security = HTTPBasic()
-
-
-@router.get("/users/nickname={nickname}")
+@router.get("/users/{nickname}")
 async def get_user_by_nickname(nickname: str) -> User:
     try:
         query = dict(nickname=nickname)
-        result = list(users_collection.find(query))[0]
+        result = users_collection.find_one(query)
         if result is None:
             raise HTTPException(status_code=404, detail="User not found")
     except CollectionInvalid:
@@ -32,11 +27,11 @@ async def get_all_users() -> list[User]:
 
 
 @router.post("/users/register")
-async def register_user(credentials: HTTPBasicCredentials = Depends(security)):
-    new_user = dict(nickname=credentials.username, password=credentials.password, projects=[])
+async def register_user(nickname: str, password: str):
+    new_user = dict(nickname=nickname, password=password, projects=[])
 
     try:
-        user_in_db = users_collection.find_one({"nickname": credentials.username})
+        user_in_db = users_collection.find_one({"nickname": nickname})
     except CollectionInvalid:
         raise HTTPException(status_code=404, detail="Collection invalid")
 
@@ -44,38 +39,35 @@ async def register_user(credentials: HTTPBasicCredentials = Depends(security)):
         raise HTTPException(status_code=400, detail="Nickname already registered")
     users_collection.insert_one(new_user)
 
-    return {"username": credentials.username, "password": credentials.password}
+    return {"username": nickname, "password": password}
 
 
 @router.get("/users/login")
-async def login_user(credentials: HTTPBasicCredentials = Depends(security)):
+async def login_user(nickname: str, password: str):
     try:
-        user = users_collection.find_one({"nickname": credentials.username})
+        user = users_collection.find_one({"nickname": nickname})
     except CollectionInvalid:
         raise HTTPException(status_code=404, detail="Collection invalid")
 
-    if not user or user["password"] != credentials.password:
+    if not user or user["password"] != password:
         raise HTTPException(status_code=400, detail="Invalid username or password")
 
     return {"message": "Login successful"}
 
 
-@router.post("/users/logout")
-async def logout_user():
-    return HTMLResponse(status_code=status.HTTP_401_UNAUTHORIZED)
-
-
 @router.patch("/users/{nickname}/change_password", status_code=200)
-async def change_password(new_password: str, credentials: HTTPBasicCredentials = Depends(security)):
-    current_user = dict(nickname=credentials.username)
+async def change_password(nickname: str, old_password: str, new_password: str, new_password_repeat: str):
+    current_user = dict(nickname=nickname)
+    if new_password != new_password_repeat:
+        raise HTTPException(status_code=400, detail="New password labels do not match")
     new_data = {"$set": dict(password=new_password)}
 
     try:
-        user = list(users_collection.find(current_user))[0]
+        user = users_collection.find_one(current_user)
     except CollectionInvalid:
         raise HTTPException(status_code=404, detail="Collection invalid")
 
-    if not user or user["password"] != credentials.password:
+    if not user or user["password"] != old_password:
         raise HTTPException(status_code=400, detail="Invalid username or password")
     else:
         users_collection.update_one(current_user, new_data)

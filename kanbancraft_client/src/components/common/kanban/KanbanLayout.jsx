@@ -14,7 +14,7 @@ const KanbanLayout = () => {
   
   const [projectsAPI, setProjectsAPI] = useState([
     {
-    project_id: 0, 
+    project_id: "0", 
     owner:  "пользователь 1",
     project_name: "Проект 1",
     members: ["пользователь 1", "пользователь 2"]
@@ -25,7 +25,7 @@ const KanbanLayout = () => {
   const [boardAPI, setBoardAPI] = useState([
     {
     board_id: 1,
-    project_id: "665985de63eb4de8bae3cd86",
+    project_id: "0",
     board_name: "доска 1"
   }
   ]);

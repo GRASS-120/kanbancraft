@@ -69,6 +69,7 @@ const BoardPage = () => {
   const handleAddColumn = async (newColumnName) => { 
     console.log(await addColumn(selectedBoard, newColumnName))
     updateBoard();
+    setNewColumnName("")
   }
 
   const handleDeleteColumn = async (columnId) => {

@@ -44,11 +44,10 @@ export const updateProjectNameById = async (
   }
 };
 
-// ! пока не работает, так как нет юзеров
-export const inviteUserInProject = async (projectId, newMemberId) => {
+export const inviteUserInProject = async (projectId, newMemberName) => {
   try {
     const res = await api.patch(
-      `/projects/${projectId}/invite_member?new_member_id=${newMemberId}`
+      `/projects/${projectId}/invite_member?new_member_name=${newMemberName}`
     );
     return res.data;
   } catch (error) {

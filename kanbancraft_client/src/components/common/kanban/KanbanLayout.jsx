@@ -5,7 +5,6 @@ import KanbanSidebar from './KanbanSidebar';
 import { getAllProjectsByNickname } from '../../../api/api_project';
 import { getBoardsByProjectId } from '../../../api/api_board';
 import { MyContext } from './selectedBoard';
-import { login, logout, registration } from '../../../api/api_user';
 
 // в Outlet будут отрисовываться все остальные компоненты
 

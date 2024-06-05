@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
 
-import { registration, login, logout } from '../../../api/api_user';
+import { registration, login } from '../../../api/api_user';
 
 // Создание контекста и экспорт его для использования в других компонентах
 export const MyContext = createContext();
@@ -13,30 +13,25 @@ export const SelectedBoard = ({ children }) => {
   const [aufUser, setAufUser] = useState('rty');
 
   const [isAuth, setIsAuth] = useState(false);
-  const [user, setUser] = useState({});
+  const [authUser, setAuthUser] = useState({});
 
   const realLogin = async (nickname, password) => {
     const res = await login(nickname, password);
-    localStorage.setItem('token', res.data.accessToken);
+    console.log(res);
     setIsAuth(true);
-    console.log(res.user);
-
-    setUser(res.user);
-  };
-
-  const realLogout = async () => {
-    const res = await logout(nickname, password);
-    localStorage.removeItem('token');
-    setIsAuth(false);
-    setUser({});
+    setAuthUser(res);
   };
 
   const realReg = async (nickname, password) => {
     const res = await registration(nickname, password);
-    localStorage.setItem('token', res.data.accessToken);
+    console.log(res);
     setIsAuth(true);
-    console.log(res.user);
-    setUser(res.user);
+    setAuthUser(res);
+  };
+
+  const realLogout = async () => {
+    setIsAuth(false);
+    setAuthUser({});
   };
 
   // Передача обеих переменных и функций для их обновления в контекст
@@ -44,7 +39,7 @@ export const SelectedBoard = ({ children }) => {
     <MyContext.Provider
       value={{
         isAuth,
-        user,
+        authUser,
         realLogin,
         realLogout,
         realReg,

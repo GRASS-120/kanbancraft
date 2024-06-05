@@ -31,19 +31,19 @@ async def get_all_users() -> list[User]:
 
 
 @router.post("/register")
-async def register_user(nickname: str, password: str):
+async def register_user(nickname: str, password: str) -> User:
     new_user = dict(nickname=nickname, password=password, projects=[])
 
     try:
-        user_in_db = users_collection.find_one({"nickname": nickname})
+        user = users_collection.find_one({"nickname": nickname})
     except CollectionInvalid:
         raise HTTPException(status_code=404, detail="Collection invalid")
 
-    if user_in_db:
+    if user:
         raise HTTPException(status_code=400, detail="Nickname already registered")
     users_collection.insert_one(new_user)
 
-    return {"username": nickname, "password": password}
+    return user
 
 
 @router.get("/login")
@@ -76,5 +76,7 @@ async def change_password(nickname: str, old_password: str, new_password: str, n
         raise HTTPException(status_code=400, detail="Invalid username or password")
     else:
         users_collection.update_one(current_user, new_data)
+
+    user = users_collection.find_one(current_user)
 
     return user

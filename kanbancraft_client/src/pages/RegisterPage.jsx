@@ -8,18 +8,8 @@ import './form.css';
 import { registration } from '../api/api_user';
 
 const RegisterPage = () => {
-  const {
-    selectedBoard,
-    setSelectedBoard,
-    selectedProject,
-    setSelectedProject,
-    aufUser,
-    isAuth,
-    user,
-    realLogin,
-    realLogout,
-    realReg,
-  } = useContext(MyContext);
+  const { isAuth, authUser, realLogin, realLogout, realReg } =
+    useContext(MyContext);
 
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false);
   const {
@@ -46,12 +36,13 @@ const RegisterPage = () => {
 
   const submit = (data) => {
     setIsSubmitSuccessful(true);
+    console.log(data);
     realReg(data.nickname, data.password);
-    handleRedirect();
+    // handleRedirect();
   };
 
   const errorHandler = (e) => {
-    //console.log(e);
+    console.log(e);
   };
 
   return (

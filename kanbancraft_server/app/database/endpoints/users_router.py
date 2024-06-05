@@ -21,7 +21,6 @@ async def get_user_by_nickname(nickname: str) -> User:
 async def get_all_users() -> list[User]:
     try:
         result = list(users_collection.find())
-        print(result)
 
         if len(result) == 0:
             raise HTTPException(status_code=404, detail="Users not found")
@@ -48,7 +47,7 @@ async def register_user(nickname: str, password: str):
 
 
 @router.get("/login")
-async def login_user(nickname: str, password: str):
+async def login_user(nickname: str, password: str) -> User:
     query = {"nickname": nickname}
 
     user = users_collection.find_one(query)
@@ -58,11 +57,11 @@ async def login_user(nickname: str, password: str):
     if user["password"] != password:
         raise HTTPException(status_code=400, detail="Invalid password")
 
-    return {"message": "Login successful"}
+    return user
 
 
 @router.patch("/users/{nickname}/change_password", status_code=200)
-async def change_password(nickname: str, old_password: str, new_password: str, new_password_repeat: str):
+async def change_password(nickname: str, old_password: str, new_password: str, new_password_repeat: str) -> User:
     current_user = dict(nickname=nickname)
 
     if new_password != new_password_repeat:
@@ -78,4 +77,4 @@ async def change_password(nickname: str, old_password: str, new_password: str, n
     else:
         users_collection.update_one(current_user, new_data)
 
-    return {"message": "Password changed successfully"}
+    return user

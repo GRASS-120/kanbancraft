@@ -22,7 +22,7 @@ def add_test_data():
     try:
         result = projects_collection.insert_many(test_projects)
         projects_ids = [str(x) for x in result.inserted_ids]
-        for i in range(3):
+        for i in range(20):
             new_data = {"$set": {"project_id": projects_ids[i]}}
             projects_collection.update_one(test_projects[i], new_data)
         print(f"Added project examples")
@@ -39,11 +39,11 @@ def add_test_data():
         print("User examples are already added")
 
     # добавление тестовых досок
-    test_boards = [{"board_id": "", "project_id": f"{projects_ids[i]}", "board_name": f"test_project_{i}"} for i in range(20)]
+    test_boards = [{"board_id": "", "project_id": f"{projects_ids[i]}", "board_name": f"test_board_{i}"} for i in range(20)]
     try:
         result = boards_collection.insert_many(test_boards)
         boards_ids = [str(x) for x in result.inserted_ids]
-        for i in range(3):
+        for i in range(20):
             new_data = {"$set": {"board_id": boards_ids[i]}}
             boards_collection.update_one(test_boards[i], new_data)
         print(f"Added board examples")
@@ -55,7 +55,7 @@ def add_test_data():
     try:
         result = columns_collection.insert_many(test_columns)
         columns_ids = [str(x) for x in result.inserted_ids]
-        for i in range(3):
+        for i in range(20):
             new_data = {"$set": {"column_id": columns_ids[i]}}
             columns_collection.update_one(test_columns[i], new_data)
         print(f"Added column examples")
@@ -67,7 +67,7 @@ def add_test_data():
     try:
         result = tasks_collection.insert_many(test_tasks)
         tasks_ids = [str(x) for x in result.inserted_ids]
-        for i in range(3):
+        for i in range(20):
             new_data = {"$set": {"task_id": tasks_ids[i]}}
             tasks_collection.update_one(test_tasks[i], new_data)
         print(f"Added task examples")

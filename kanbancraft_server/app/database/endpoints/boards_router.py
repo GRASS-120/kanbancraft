@@ -1,7 +1,7 @@
 from fastapi import HTTPException
-from pymongo.errors import InvalidOperation, WriteError, DuplicateKeyError
+from pymongo.errors import InvalidOperation, WriteError, DuplicateKeyError, CollectionInvalid
 from database.endpoints.projects_router import router
-from database.routers import projects_collection, boards_collection, Board
+from database.routers import projects_collection, boards_collection, Board, columns_collection, tasks_collection
 
 
 # Эндпоинты для досок
@@ -58,3 +58,36 @@ async def update_board_name(board_id: str, new_name):
         raise HTTPException(status_code=400, detail="Board name was not updated")
 
     return {"message": "Board name was successfully updated"}
+
+
+@router.delete("/boards/{board_id}/delete", status_code=200)
+async def delete_board(board_id: str):
+    columns_ids = []
+    query = dict(board_id=board_id)
+
+    board = list(boards_collection.find(dict(board_id=board_id)))
+    if board is None:
+        raise HTTPException(status_code=404, detail="This board does not exist")
+
+    columns = list(columns_collection.find(query))
+    if (columns is not None) and (columns != []):
+        columns_ids = [x.get('column_id') for x in columns]
+
+    try:
+        boards_collection.delete_one(query)
+    except CollectionInvalid:
+        raise HTTPException(status_code=404, detail="Boards collection invalid")
+
+    try:
+        columns_collection.delete_many(query)
+    except CollectionInvalid:
+        raise HTTPException(status_code=404, detail="Tasks collection invalid")
+
+    try:
+        for column_id in columns_ids:
+            tasks_query = dict(column_id=column_id)
+            tasks_collection.delete_many(tasks_query)
+    except CollectionInvalid:
+        raise HTTPException(status_code=404, detail="Tasks collection invalid")
+
+    return {"message": "Board was successfully deleted"}

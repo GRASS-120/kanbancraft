@@ -12,7 +12,7 @@ export const getAllColumnsByBoardId = async (boardId) => {
 export const addColumn = async (boardId, columnName) => {
   try {
     const res = await api.post(
-      `/columns?board_id=${boardId}&column_name=${columnName}`
+      `/columns/add?board_id=${boardId}&column_name=${columnName}`
     );
     return res.data;
   } catch (error) {
@@ -32,7 +32,6 @@ export const updateColumnName = async (columnId, newName) => {
 };
 
 export const updateColumnColor = async (columnId, newColor) => {
-  console.log(columnId, newColor);
   try {
     const res = await api.patch(
       `/columns/${columnId}/change_color?new_color=${newColor}`

@@ -38,7 +38,7 @@ const RegisterPage = () => {
     setIsSubmitSuccessful(true);
     console.log(data);
     realReg(data.nickname, data.password);
-    // handleRedirect();
+    handleRedirect();
   };
 
   const errorHandler = (e) => {
